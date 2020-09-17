@@ -1,13 +1,18 @@
 import random
 import readchar
 import os
+import time
 
 
 NUMBER_WORDS_PRINTED = 3
 ROUND_NUMBER = 3
+cpm = []
 
 words = ["je", "suis", "en", "direction", "de", "paris"]
 
+def compute_cpm(time_ns, str_length):
+    cpm = time_ns / 10**9
+    return cpm
 
 def grab_words(words):
     if len(words) == 0:
@@ -46,24 +51,32 @@ for rounds in range(ROUND_NUMBER):
     if not words_grabed == False:
         words_string = " ".join(words_grabed)
 
-        # get charactere
         while not char == b"\r" or len(entries) < len(words_string):
 
             print("-- Round ", rounds, "--")
-            print(words_string)
             printParity(entries, words_string)
+            #print("Last key : ", char)
+            print(cpm)
 
             char = readchar.readchar()
             if b'\x08' == char:
                 entries = entries[:-1]
             elif b'\x1b' == char:
                 entries = ""
-            elif char in []:
+            elif char in [b'\xfd']:
                 pass
             else:
                 entries = entries + char.decode("utf-8")
 
+            if len(entries) == 1:
+                start_time = time.time_ns()
+
+
             os.system("cls")
+
+        end_time = time.time_ns()
+        cpm.append(compute_cpm(end_time-start_time, len(words)))
 
     else:
         print("--end--")
+        print(cpm)
