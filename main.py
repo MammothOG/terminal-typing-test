@@ -11,7 +11,8 @@ cpm = []
 words = ["je", "suis", "en", "direction", "de", "paris"]
 
 def compute_cpm(time_ns, str_length):
-    cpm = time_ns / 10**9
+    time_s = time_ns / 10**9
+    cpm = (str_length * 60) / time_s
     return cpm
 
 def grab_words(words):
@@ -55,8 +56,6 @@ for rounds in range(ROUND_NUMBER):
 
             print("-- Round ", rounds, "--")
             printParity(entries, words_string)
-            #print("Last key : ", char)
-            print(cpm)
 
             char = readchar.readchar()
             if b'\x08' == char:
@@ -75,8 +74,13 @@ for rounds in range(ROUND_NUMBER):
             os.system("cls")
 
         end_time = time.time_ns()
-        cpm.append(compute_cpm(end_time-start_time, len(words)))
+        cpm.append(compute_cpm(end_time-start_time, len(words_string)))
 
     else:
-        print("--end--")
-        print(cpm)
+        cpm_mean = 0
+        for i, cpm_round in enumerate(cpm):
+            print("Rounds {} : {}".format(i, cpm_round))
+            cpm_mean += cpm_round
+
+        cpm_mean /= len(cpm)
+        print("cpm mean : ", cpm_mean)
