@@ -26,12 +26,15 @@ def printParity(entries, words):
     # cut words
     parity = ""
     for i, char in enumerate(words):
-        if i > len(entries) - 1:
+        if i >= len(entries):
             parity = parity + "\033[00m" + char
         elif char == entries[i]:
             parity = parity + "\033[42m\033[30m" + char
         else:
             parity = parity + "\033[41m\033[30m" + char
+    
+    if len(entries) > len(words):
+        parity = parity + "\033[41m\033[30m" + entries[i+1:]
 
     print(parity + "\033[00m")
 
