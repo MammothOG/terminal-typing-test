@@ -2,9 +2,10 @@ import random
 import readchar
 import os
 import time
+from playsound import playsound
 
 
-NUMBER_WORDS_PRINTED = 3
+NUMBER_WORDS_PRINTED = 8
 ROUND_NUMBER = 3
 cpm = []
 
@@ -40,8 +41,10 @@ def printParity(entries, words):
         if i >= len(entries):
             parity = parity + "\033[00m" + char
         elif char == entries[i]:
+            #playsound('resources/good-stroke.wav')
             parity = parity + "\033[42m\033[30m" + char
         else:
+            #playsound('rsources/bad-stroke.wav')
             parity = parity + "\033[41m\033[30m" + char
     
     if len(entries) > len(words):
@@ -88,4 +91,4 @@ for i, cpm_round in enumerate(cpm):
     cpm_mean += cpm_round
 
 cpm_mean /= len(cpm)
-print("cpm mean : ", cpm_mean)
+print("CPM mean : ", cpm_mean)
